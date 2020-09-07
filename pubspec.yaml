@@ -13,7 +13,7 @@ dependencies:
 
   auto_size_text: ^2.1.0
   carousel_slider: ^2.1.0
-
+  shared_preferences: ^0.5.7+3
 
 dev_dependencies:
   flutter_test:
@@ -25,3 +25,9 @@ flutter:
 
   assets:
     - assets/images/
+  
+  fonts:
+    - family: SFURhythmRegular
+      fonts:
+        # - asset: assets/fonts/Pony.ttf
+        - asset: assets/fonts/SFURhythmRegular.TTF
