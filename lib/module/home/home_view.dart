@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:vong_quay/config/config.dart';
 import 'package:vong_quay/model/model.dart';
+import 'package:vong_quay/module/module.dart';
 import 'package:vong_quay/widget/widget.dart';
 
 class HomeView extends StatefulWidget {
@@ -14,6 +16,27 @@ class _HomeViewState extends State<HomeView> {
   int _index = 0;
   bool _isMute = false;
 
+  void _playClick() {
+    switch (_index) {
+      case 0:
+        Navigator.of(context).push(
+          createPage(NormalWheel(items: WheelItemConfig.giaiTriList)),
+        );
+        break;
+      case 1:
+        Navigator.of(context).push(
+          createPage(NormalWheel(items: WheelItemConfig.satPhatList)),
+        );
+        break;
+      case 2:
+      case 3:
+      case 4:
+        break;
+      default:
+        break;
+    }
+  }
+
   void _soundClick() {
     setState(() {
       _isMute = !_isMute;
@@ -26,9 +49,9 @@ class _HomeViewState extends State<HomeView> {
     _wheels.addAll([
       WheelInfo(id: 0, name: 'Giải trí'),
       WheelInfo(id: 1, name: 'Sát phạt'),
-      WheelInfo(id: 2, name: 'Ai được hát?'),
-      WheelInfo(id: 4, name: 'Tự nhập mức phạt'),
-      WheelInfo(id: 3, name: 'Người được chọn'),
+      WheelInfo(id: 2, name: 'Sự thật hoặc Thử thách'),
+      WheelInfo(id: 3, name: 'Tự nhập mức phạt'),
+      WheelInfo(id: 4, name: 'Người được chọn'),
     ]);
     super.initState();
   }
@@ -161,7 +184,7 @@ class _HomeViewState extends State<HomeView> {
               width: 100,
               height: 100,
               child: FlatButton(
-                onPressed: () {},
+                onPressed: _playClick,
                 padding: const EdgeInsets.all(0),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100),
