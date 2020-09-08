@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:vong_quay/config/config.dart';
 import 'package:vong_quay/model/model.dart';
 import 'package:vong_quay/module/module.dart';
+import 'package:vong_quay/service/cache/cache_service.dart';
 import 'package:vong_quay/widget/widget.dart';
 
 class HomeView extends StatefulWidget {
@@ -19,17 +20,27 @@ class _HomeViewState extends State<HomeView> {
   void _playClick() {
     switch (_index) {
       case 0:
-        Navigator.of(context).push(
-          createPage(NormalWheel(items: WheelItemConfig.giaiTriList)),
-        );
+        Navigator.of(context).push(createPage(NormalWheel(items: WheelItemConfig.giaiTriList))).then((value) {
+          setState(() {
+            _isMute = CacheService.shared().getBool('isMute');
+          });
+        });
         break;
       case 1:
-        Navigator.of(context).push(
-          createPage(NormalWheel(items: WheelItemConfig.satPhatList)),
-        );
+        Navigator.of(context).push(createPage(NormalWheel(items: WheelItemConfig.satPhatList))).then((value) {
+          setState(() {
+            _isMute = CacheService.shared().getBool('isMute');
+          });
+        });
         break;
       case 2:
       case 3:
+        Navigator.of(context).push(createPage(FlexibleWheelConfig())).then((value) {
+          setState(() {
+            _isMute = CacheService.shared().getBool('isMute');
+          });
+        });
+        break;
       case 4:
         break;
       default:
@@ -38,6 +49,7 @@ class _HomeViewState extends State<HomeView> {
   }
 
   void _soundClick() {
+    CacheService.shared().setBool('isMute', !_isMute);
     setState(() {
       _isMute = !_isMute;
     });
@@ -53,6 +65,7 @@ class _HomeViewState extends State<HomeView> {
       WheelInfo(id: 3, name: 'Tự nhập mức phạt'),
       WheelInfo(id: 4, name: 'Người được chọn'),
     ]);
+    _isMute = CacheService.shared().getBool('isMute');
     super.initState();
   }
 
@@ -78,7 +91,7 @@ class _HomeViewState extends State<HomeView> {
               fontFamily: 'SFURhythmRegular',
               textAlign: TextAlign.center,
               color: Colors.deepOrange,
-              fontSize: 40,
+              fontSize: 35,
               fontWeight: FontWeight.bold,
               strokeColor: Colors.white,
               strokeWidth: 0.8,
@@ -91,13 +104,13 @@ class _HomeViewState extends State<HomeView> {
                 fontFamily: 'SFURhythmRegular',
                 textAlign: TextAlign.center,
                 color: Colors.white,
-                fontSize: 33,
+                fontSize: 30,
                 fontWeight: FontWeight.bold,
                 strokeColor: Colors.black,
                 strokeWidth: 0.3,
               ),
             ),
-            SizedBox(height: 16),
+            SizedBox(height: 8),
             Container(
               height: 250,
               alignment: Alignment.center,
@@ -137,7 +150,7 @@ class _HomeViewState extends State<HomeView> {
                         },
                         padding: const EdgeInsets.all(0),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(100),
                           side: BorderSide(color: Colors.white, width: 2),
                         ),
                         color: Colors.deepOrange[400],
@@ -164,7 +177,7 @@ class _HomeViewState extends State<HomeView> {
                         },
                         padding: const EdgeInsets.all(0),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(100),
                           side: BorderSide(color: Colors.white, width: 2),
                         ),
                         color: Colors.deepOrange[400],
@@ -179,7 +192,23 @@ class _HomeViewState extends State<HomeView> {
                 ],
               ),
             ),
-            SizedBox(height: 24),
+            SizedBox(height: 4),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: _wheels.map((url) {
+                int index = _wheels.indexOf(url);
+                return Container(
+                  width: 8.0,
+                  height: 8.0,
+                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _index == index ? Color.fromRGBO(0, 0, 0, 0.9) : Color.fromRGBO(0, 0, 0, 0.4),
+                  ),
+                );
+              }).toList(),
+            ),
+            SizedBox(height: 16),
             SizedBox(
               width: 90,
               height: 90,

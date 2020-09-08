@@ -87,8 +87,9 @@ class _BoardViewState extends State<BoardView> {
     );
   }
 
-  _buildImage(ItemInfo luck) {
-    var _rotate = _rotote(widget.items.indexOf(luck));
+  _buildImage(ItemInfo item) {
+    var _rotate = _rotote(widget.items.indexOf(item));
+    var _angle = 2 * pi / widget.items.length;
     return Transform.rotate(
       angle: _rotate,
       child: Container(
@@ -98,19 +99,18 @@ class _BoardViewState extends State<BoardView> {
         child: ConstrainedBox(
           constraints: BoxConstraints.expand(
             height: size.height / 3,
-            width: 65,
+            width: 50,
           ),
           child: Column(
             children: <Widget>[
               // Image.asset(luck.asset, width: 40,),
-              SizedBox(height: 4),
-              Icon(Icons.ac_unit, color: Colors.white),
-              SizedBox(height: 12),
+              SizedBox(height: 6),
               Container(
                 width: double.infinity,
+                // color: Colors.red,
                 height: 70,
                 child: AutoSizeText(
-                  luck.name.toUpperCase(),
+                  item.name.toUpperCase(),
                   maxLines: 3,
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -120,6 +120,12 @@ class _BoardViewState extends State<BoardView> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+              ),
+              SizedBox(height: 4),
+              Icon(
+                Icons.ac_unit,
+                color: Colors.white,
+                size: 30,
               ),
             ],
           ),

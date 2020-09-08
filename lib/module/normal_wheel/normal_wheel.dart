@@ -3,19 +3,19 @@ import 'dart:math';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:skeleton_text/skeleton_text.dart';
+import 'package:vong_quay/config/config.dart';
 import 'package:vong_quay/model/item_info.dart';
+import 'package:vong_quay/service/service.dart';
 import 'package:vong_quay/widget/widget.dart';
-
-enum NormalWeelType { GIAI_TRI, SAT_PHAT }
 
 class NormalWheel extends StatefulWidget {
   final List<ItemInfo> items;
-  final NormalWeelType type;
+  final WheelTypeEnum type;
 
   const NormalWheel({
     Key key,
     this.items,
-    this.type = NormalWeelType.GIAI_TRI,
+    this.type = WheelTypeEnum.GIAI_TRI,
   }) : super(key: key);
   @override
   _NormalWheelState createState() => _NormalWheelState();
@@ -45,6 +45,7 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
   }
 
   void _soundClick() {
+    CacheService.shared().setBool('isMute', !_isMute);
     setState(() {
       _isMute = !_isMute;
     });
@@ -52,10 +53,12 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
 
   @override
   void initState() {
-    super.initState();
     var _duration = Duration(milliseconds: 5000);
     _ctrl = AnimationController(vsync: this, duration: _duration);
     _ani = CurvedAnimation(parent: _ctrl, curve: Curves.fastLinearToSlowEaseIn);
+    _isMute = CacheService.shared().getBool('isMute');
+    super.initState();
+
     _ani.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         setState(() {

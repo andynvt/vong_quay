@@ -13,6 +13,10 @@ class WheelItemConfig {
     ItemInfo(name: "Hát 1 bài rồi uống", color: Colors.blue, image: ""),
     ItemInfo(name: "Uống với chí cốt", color: Colors.lightGreen, image: ""),
     ItemInfo(name: "Tất cả cùng uống", color: Colors.cyan, image: ""),
+    ItemInfo(name: "Tất cả cùng ", color: Colors.amber, image: ""),
+    ItemInfo(name: "Tất cả cùng uống", color: Colors.black, image: ""),
+    ItemInfo(name: "Tất cả cùng ", color: Colors.blue, image: ""),
+    ItemInfo(name: "Tất cả cùng uống", color: Colors.deepPurple, image: ""),
   ];
 
   static final List<ItemInfo> satPhatList = [

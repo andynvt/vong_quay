@@ -1,0 +1,7 @@
+enum WheelTypeEnum {
+  GIAI_TRI,
+  SAT_PHAT,
+  SU_THAT,
+  TU_NHAP_MUC_PHAT,
+  NGUOI_DUOC_CHON,
+}
