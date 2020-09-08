@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:skeleton_text/skeleton_text.dart';
 import 'package:vong_quay/model/item_info.dart';
 import 'package:vong_quay/widget/widget.dart';
 
@@ -25,9 +27,13 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
   AnimationController _ctrl;
   Animation _ani;
   bool _isMute = false;
+  bool _isHide = true;
 
   void _start() {
     if (!_ctrl.isAnimating) {
+      setState(() {
+        _isHide = true;
+      });
       var _random = Random().nextDouble();
       _angle = 20 + Random().nextInt(5) + _random;
       _ctrl.forward(from: 0.0).then((_) {
@@ -50,6 +56,13 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
     var _duration = Duration(milliseconds: 5000);
     _ctrl = AnimationController(vsync: this, duration: _duration);
     _ani = CurvedAnimation(parent: _ctrl, curve: Curves.fastLinearToSlowEaseIn);
+    _ani.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        setState(() {
+          _isHide = false;
+        });
+      }
+    });
   }
 
   @override
@@ -98,7 +111,7 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
           ),
           Positioned(
             left: 16,
-            bottom: 16,
+            bottom: 48,
             child: SafeArea(
               child: Container(
                 width: 50,
@@ -126,7 +139,7 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
           ),
           Positioned(
             right: 16,
-            bottom: 16,
+            bottom: 48,
             child: SafeArea(
               child: SizedBox(
                 width: 50,
@@ -179,12 +192,54 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
 
   Widget _buildResult(_value) {
     var _index = _calIndex(_value * _angle + _current);
+    final width = MediaQuery.of(context).size.width;
     // String _asset = widget.items[_index].asset;
+    if (_isHide) {
+      return SizedBox(width: width, height: double.infinity);
+    }
     return Align(
       alignment: Alignment.topCenter,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 80),
-        child: Text(widget.items[_index].name),
+      child: Stack(
+        children: [
+          Container(
+            height: 150,
+            // width: width,
+            child: Center(
+              child: SkeletonAnimation(
+                child: Container(
+                  height: 40,
+                  width: width - 32,
+                  color: widget.items[_index].color,
+                  child: Center(
+                    child: Text(
+                      widget.items[_index].name.toUpperCase(),
+                      style: TextStyle(
+                        fontFamily: 'UTMSwissCondensed',
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              width: width - 32,
+              height: 200,
+              child: !_isHide
+                  ? FlareActor(
+                      'assets/images/fireworks.flr',
+                      animation: 'explode',
+                    )
+                  : SizedBox(),
+            ),
+          ),
+        ],
       ),
     );
   }

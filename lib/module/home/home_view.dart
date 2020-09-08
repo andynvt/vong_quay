@@ -78,12 +78,12 @@ class _HomeViewState extends State<HomeView> {
               fontFamily: 'SFURhythmRegular',
               textAlign: TextAlign.center,
               color: Colors.deepOrange,
-              fontSize: 45,
+              fontSize: 40,
               fontWeight: FontWeight.bold,
               strokeColor: Colors.white,
               strokeWidth: 0.8,
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: StrokeText(
@@ -91,13 +91,13 @@ class _HomeViewState extends State<HomeView> {
                 fontFamily: 'SFURhythmRegular',
                 textAlign: TextAlign.center,
                 color: Colors.white,
-                fontSize: 35,
+                fontSize: 33,
                 fontWeight: FontWeight.bold,
                 strokeColor: Colors.black,
                 strokeWidth: 0.3,
               ),
             ),
-            SizedBox(height: 25),
+            SizedBox(height: 16),
             Container(
               height: 250,
               alignment: Alignment.center,
@@ -179,10 +179,10 @@ class _HomeViewState extends State<HomeView> {
                 ],
               ),
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 24),
             SizedBox(
-              width: 100,
-              height: 100,
+              width: 90,
+              height: 90,
               child: FlatButton(
                 onPressed: _playClick,
                 padding: const EdgeInsets.all(0),
@@ -194,11 +194,11 @@ class _HomeViewState extends State<HomeView> {
                 child: Icon(
                   Icons.play_arrow,
                   color: Colors.white,
-                  size: 70,
+                  size: 65,
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 16),
             SizedBox(
               width: 50,
               height: 50,

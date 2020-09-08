@@ -104,10 +104,11 @@ class _BoardViewState extends State<BoardView> {
             children: <Widget>[
               // Image.asset(luck.asset, width: 40,),
               SizedBox(height: 4),
-              Icon(Icons.ac_unit),
+              Icon(Icons.ac_unit, color: Colors.white),
+              SizedBox(height: 12),
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.only(top: 12),
+                height: 70,
                 child: AutoSizeText(
                   luck.name.toUpperCase(),
                   maxLines: 3,
@@ -115,7 +116,7 @@ class _BoardViewState extends State<BoardView> {
                   style: TextStyle(
                     fontFamily: 'UTMSwissCondensed',
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: 17,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
