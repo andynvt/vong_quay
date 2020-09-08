@@ -194,7 +194,7 @@ class _HomeViewState extends State<HomeView> {
                 child: Icon(
                   Icons.play_arrow,
                   color: Colors.white,
-                  size: 60,
+                  size: 70,
                 ),
               ),
             ),

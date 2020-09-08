@@ -29,5 +29,8 @@ flutter:
   fonts:
     - family: SFURhythmRegular
       fonts:
-        # - asset: assets/fonts/Pony.ttf
         - asset: assets/fonts/SFURhythmRegular.TTF
+
+    - family: UTMSwissCondensed
+      fonts:
+        - asset: assets/fonts/UTMSwissCondensed.TTF

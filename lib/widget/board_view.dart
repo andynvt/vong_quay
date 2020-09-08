@@ -98,7 +98,7 @@ class _BoardViewState extends State<BoardView> {
         child: ConstrainedBox(
           constraints: BoxConstraints.expand(
             height: size.height / 3,
-            width: 70,
+            width: 65,
           ),
           child: Column(
             children: <Widget>[
@@ -113,6 +113,7 @@ class _BoardViewState extends State<BoardView> {
                   maxLines: 3,
                   textAlign: TextAlign.center,
                   style: TextStyle(
+                    fontFamily: 'UTMSwissCondensed',
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
