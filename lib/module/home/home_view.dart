@@ -1,9 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:vong_quay/config/config.dart';
-import 'package:vong_quay/model/model.dart';
 import 'package:vong_quay/module/module.dart';
-import 'package:vong_quay/service/cache/cache_service.dart';
+import 'package:vong_quay/service/service.dart';
 import 'package:vong_quay/widget/widget.dart';
 
 class HomeView extends StatefulWidget {
@@ -12,34 +11,21 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final List<WheelInfo> _wheels = [];
   CarouselController _controller;
   int _index = 0;
-  bool _isMute = false;
 
   void _playClick() {
+    CacheService.shared().setInt('index', _index);
     switch (_index) {
       case 0:
-        Navigator.of(context).push(createPage(NormalWheel(items: WheelItemConfig.giaiTriList))).then((value) {
-          setState(() {
-            _isMute = CacheService.shared().getBool('isMute');
-          });
-        });
+        Navigator.of(context).push(createPage(NormalWheel(items: WheelItemConfig.giaiTriList)));
         break;
       case 1:
-        Navigator.of(context).push(createPage(NormalWheel(items: WheelItemConfig.satPhatList))).then((value) {
-          setState(() {
-            _isMute = CacheService.shared().getBool('isMute');
-          });
-        });
+        Navigator.of(context).push(createPage(NormalWheel(items: WheelItemConfig.satPhatList)));
         break;
       case 2:
       case 3:
-        Navigator.of(context).push(createPage(FlexibleWheelConfig())).then((value) {
-          setState(() {
-            _isMute = CacheService.shared().getBool('isMute');
-          });
-        });
+        Navigator.of(context).push(createPage(FlexibleWheelConfig()));
         break;
       case 4:
         break;
@@ -48,25 +34,14 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
-  void _soundClick() {
-    CacheService.shared().setBool('isMute', !_isMute);
-    setState(() {
-      _isMute = !_isMute;
-    });
-  }
-
   @override
   void initState() {
+    _index = CacheService.shared().getInt('index');
     _controller = CarouselController();
-    _wheels.addAll([
-      WheelInfo(id: 0, name: 'Giải trí'),
-      WheelInfo(id: 1, name: 'Sát phạt'),
-      WheelInfo(id: 2, name: 'Sự thật hoặc Thử thách'),
-      WheelInfo(id: 3, name: 'Tự nhập mức phạt'),
-      WheelInfo(id: 4, name: 'Người được chọn'),
-    ]);
-    _isMute = CacheService.shared().getBool('isMute');
     super.initState();
+    Future.delayed(Duration(milliseconds: 200), () {
+      _controller.jumpToPage(_index);
+    });
   }
 
   @override
@@ -99,15 +74,20 @@ class _HomeViewState extends State<HomeView> {
             SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: StrokeText(
-                '${_wheels[_index].name}'.toUpperCase(),
-                fontFamily: 'SFURhythmRegular',
-                textAlign: TextAlign.center,
-                color: Colors.white,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                strokeColor: Colors.black,
-                strokeWidth: 0.3,
+              child: Consum<DataService>(
+                value: DataService.shared(),
+                builder: (_, service) {
+                  return StrokeText(
+                    '${service.wheels[_index].name}'.toUpperCase(),
+                    fontFamily: 'SFURhythmRegular',
+                    textAlign: TextAlign.center,
+                    color: Colors.white,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    strokeColor: Colors.black,
+                    strokeWidth: 0.3,
+                  );
+                },
               ),
             ),
             SizedBox(height: 8),
@@ -117,22 +97,27 @@ class _HomeViewState extends State<HomeView> {
               child: Stack(
                 children: [
                   Center(
-                    child: CarouselSlider.builder(
-                      carouselController: _controller,
-                      itemCount: _wheels.length,
-                      itemBuilder: (_, index) {
-                        return Image.asset(
-                          'assets/images/${_wheels[index].id + 1}.png',
+                    child: Consum<DataService>(
+                      value: DataService.shared(),
+                      builder: (_, service) {
+                        return CarouselSlider.builder(
+                          carouselController: _controller,
+                          itemCount: service.wheels.length,
+                          itemBuilder: (_, index) {
+                            return Image.asset(
+                              'assets/images/${service.wheels[index].id + 1}.png',
+                            );
+                          },
+                          options: CarouselOptions(
+                            viewportFraction: 1,
+                            onPageChanged: (index, _) {
+                              setState(() {
+                                _index = index;
+                              });
+                            },
+                          ),
                         );
                       },
-                      options: CarouselOptions(
-                        viewportFraction: 1,
-                        onPageChanged: (index, _) {
-                          setState(() {
-                            _index = index;
-                          });
-                        },
-                      ),
                     ),
                   ),
                   Positioned(
@@ -193,20 +178,25 @@ class _HomeViewState extends State<HomeView> {
               ),
             ),
             SizedBox(height: 4),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: _wheels.map((url) {
-                int index = _wheels.indexOf(url);
-                return Container(
-                  width: 8.0,
-                  height: 8.0,
-                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: _index == index ? Color.fromRGBO(0, 0, 0, 0.9) : Color.fromRGBO(0, 0, 0, 0.4),
-                  ),
+            Consum<DataService>(
+              value: DataService.shared(),
+              builder: (_, service) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: service.wheels.map((url) {
+                    int index = service.wheels.indexOf(url);
+                    return Container(
+                      width: 8.0,
+                      height: 8.0,
+                      margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: _index == index ? Color.fromRGBO(0, 0, 0, 0.9) : Color.fromRGBO(0, 0, 0, 0.4),
+                      ),
+                    );
+                  }).toList(),
                 );
-              }).toList(),
+              },
             ),
             SizedBox(height: 16),
             SizedBox(
@@ -231,19 +221,24 @@ class _HomeViewState extends State<HomeView> {
             SizedBox(
               width: 50,
               height: 50,
-              child: FlatButton(
-                onPressed: _soundClick,
-                padding: const EdgeInsets.all(0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100),
-                  side: BorderSide(color: Colors.white, width: 2),
-                ),
-                color: _isMute ? Colors.grey : Colors.deepOrange[400],
-                child: Icon(
-                  _isMute ? Icons.volume_off : Icons.volume_up,
-                  color: Colors.white,
-                  size: 30,
-                ),
+              child: Consum<SettingService>(
+                value: DataService.shared().setting,
+                builder: (_, service) {
+                  return FlatButton(
+                    onPressed: DataService.shared().setting.setMute,
+                    padding: const EdgeInsets.all(0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100),
+                      side: BorderSide(color: Colors.white, width: 2),
+                    ),
+                    color: service.isMute ? Colors.grey : Colors.deepOrange[400],
+                    child: Icon(
+                      service.isMute ? Icons.volume_off : Icons.volume_up,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                  );
+                },
               ),
             ),
           ],

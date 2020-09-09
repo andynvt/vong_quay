@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:skeleton_text/skeleton_text.dart';
 import 'package:vong_quay/config/config.dart';
 import 'package:vong_quay/model/item_info.dart';
+import 'package:vong_quay/service/audio_player/audio_player.dart';
 import 'package:vong_quay/service/service.dart';
 import 'package:vong_quay/widget/widget.dart';
 
@@ -26,10 +27,11 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
   double _current = 0;
   AnimationController _ctrl;
   Animation _ani;
-  bool _isMute = false;
+  // bool _isMute = false;
   bool _isHide = true;
 
   void _start() {
+    AudioPlayerService.shared().playSpin();
     if (!_ctrl.isAnimating) {
       setState(() {
         _isHide = true;
@@ -44,23 +46,16 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
     }
   }
 
-  void _soundClick() {
-    CacheService.shared().setBool('isMute', !_isMute);
-    setState(() {
-      _isMute = !_isMute;
-    });
-  }
-
   @override
   void initState() {
     var _duration = Duration(milliseconds: 5000);
     _ctrl = AnimationController(vsync: this, duration: _duration);
     _ani = CurvedAnimation(parent: _ctrl, curve: Curves.fastLinearToSlowEaseIn);
-    _isMute = CacheService.shared().getBool('isMute');
     super.initState();
 
     _ani.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
+        AudioPlayerService.shared().playCongrats();
         setState(() {
           _isHide = false;
         });
@@ -147,19 +142,24 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
               child: SizedBox(
                 width: 50,
                 height: 50,
-                child: FlatButton(
-                  onPressed: _soundClick,
-                  padding: const EdgeInsets.all(0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100),
-                    side: BorderSide(color: Colors.white, width: 2),
-                  ),
-                  color: _isMute ? Colors.grey : Colors.deepOrange[400],
-                  child: Icon(
-                    _isMute ? Icons.volume_off : Icons.volume_up,
-                    color: Colors.white,
-                    size: 30,
-                  ),
+                child: Consum<SettingService>(
+                  value: DataService.shared().setting,
+                  builder: (_, service) {
+                    return FlatButton(
+                      onPressed: DataService.shared().setting.setMute,
+                      padding: const EdgeInsets.all(0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(100),
+                        side: BorderSide(color: Colors.white, width: 2),
+                      ),
+                      color: service.isMute ? Colors.grey : Colors.deepOrange[400],
+                      child: Icon(
+                        service.isMute ? Icons.volume_off : Icons.volume_up,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    );
+                  },
                 ),
               ),
             ),

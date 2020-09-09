@@ -123,7 +123,7 @@ class _BoardViewState extends State<BoardView> {
               ),
               SizedBox(height: 4),
               Icon(
-                Icons.ac_unit,
+                Icons.gamepad,
                 color: Colors.white,
                 size: 30,
               ),

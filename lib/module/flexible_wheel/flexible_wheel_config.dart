@@ -21,9 +21,27 @@ class _FlexibleWheelConfigState extends State<FlexibleWheelConfig> {
     4: ItemInfo(color: Colors.pink),
   };
 
-  ColorSwatch _color = Colors.blue;
+  void _removeItemClick() {
+    if (_quantity == 2) {
+      return;
+    }
+    setState(() {
+      _quantity -= 1;
+    });
+    items.remove(items.length);
+  }
 
-  void _selectColor() {
+  void _addItemClick() {
+    if (_quantity == 12) {
+      return;
+    }
+    setState(() {
+      _quantity += 1;
+    });
+    items[items.length] = ItemInfo(color: Colors.deepOrange);
+  }
+
+  void _selectColor(int index) {
     showDialog(
       context: context,
       builder: (_) {
@@ -31,11 +49,10 @@ class _FlexibleWheelConfigState extends State<FlexibleWheelConfig> {
           contentPadding: const EdgeInsets.all(6.0),
           content: MaterialColorPicker(
             shrinkWrap: true,
-            selectedColor: _color,
+            selectedColor: items[index].color,
             onMainColorChange: (cl) {
-              print(cl);
               setState(() {
-                _color = cl;
+                items[index].color = cl;
               });
               Navigator.of(_).pop();
             },
@@ -44,6 +61,11 @@ class _FlexibleWheelConfigState extends State<FlexibleWheelConfig> {
         );
       },
     );
+  }
+
+  void _doneClick() {
+    print(_wheelName);
+    print(items);
   }
 
   @override
@@ -105,15 +127,7 @@ class _FlexibleWheelConfigState extends State<FlexibleWheelConfig> {
                           width: 40,
                           height: 40,
                           child: FlatButton(
-                            onPressed: () {
-                              if (_quantity == 2) {
-                                return;
-                              }
-                              setState(() {
-                                _quantity -= 1;
-                              });
-                              // items[]
-                            },
+                            onPressed: _removeItemClick,
                             padding: EdgeInsets.zero,
                             color: Colors.deepOrange[400],
                             shape: RoundedRectangleBorder(
@@ -139,14 +153,7 @@ class _FlexibleWheelConfigState extends State<FlexibleWheelConfig> {
                           width: 40,
                           height: 40,
                           child: FlatButton(
-                            onPressed: () {
-                              if (_quantity == 12) {
-                                return;
-                              }
-                              setState(() {
-                                _quantity += 1;
-                              });
-                            },
+                            onPressed: _addItemClick,
                             padding: EdgeInsets.zero,
                             color: Colors.deepOrange[400],
                             shape: RoundedRectangleBorder(
@@ -191,18 +198,18 @@ class _FlexibleWheelConfigState extends State<FlexibleWheelConfig> {
                                         labelText: 'Tên ô ${index + 1}',
                                       ),
                                       onChanged: (value) {
-                                        // items[index]
+                                        items[index].name = value;
                                       },
                                     ),
                                   ),
                                   SizedBox(width: 16),
                                   InkWell(
-                                    onTap: _selectColor,
+                                    onTap: () => _selectColor(index),
                                     child: Container(
                                       width: 40,
                                       height: 40,
                                       decoration: BoxDecoration(
-                                        color: _color,
+                                        color: items[index].color,
                                         shape: BoxShape.circle,
                                         boxShadow: [
                                           BoxShadow(
@@ -262,7 +269,7 @@ class _FlexibleWheelConfigState extends State<FlexibleWheelConfig> {
                 width: 40,
                 height: 40,
                 child: FlatButton(
-                  onPressed: Navigator.of(context).pop,
+                  onPressed: _doneClick,
                   padding: const EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100),
