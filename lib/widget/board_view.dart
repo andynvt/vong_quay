@@ -89,7 +89,6 @@ class _BoardViewState extends State<BoardView> {
 
   _buildImage(ItemInfo item) {
     var _rotate = _rotote(widget.items.indexOf(item));
-    var _angle = 2 * pi / widget.items.length;
     return Transform.rotate(
       angle: _rotate,
       child: Container(
@@ -99,34 +98,30 @@ class _BoardViewState extends State<BoardView> {
         child: ConstrainedBox(
           constraints: BoxConstraints.expand(
             height: size.height / 3,
-            width: 50,
+            width: 55,
           ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              // Image.asset(luck.asset, width: 40,),
-              SizedBox(height: 6),
               Container(
                 width: double.infinity,
-                // color: Colors.red,
-                height: 70,
-                child: AutoSizeText(
-                  item.name.toUpperCase(),
-                  maxLines: 3,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'UTMSwissCondensed',
-                    color: Colors.white,
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
+                height: 50,
+                child: Center(
+                  child: AutoSizeText(
+                    item.name.toUpperCase(),
+                    maxLines: 3,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'UTMSwissCondensed',
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
-              SizedBox(height: 4),
-              Icon(
-                Icons.gamepad,
-                color: Colors.white,
-                size: 30,
-              ),
+              SizedBox(height: 3),
+              Image.asset(item.image, width: 40),
             ],
           ),
         ),

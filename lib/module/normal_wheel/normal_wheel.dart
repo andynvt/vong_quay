@@ -210,20 +210,25 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
             child: Center(
               child: SkeletonAnimation(
                 child: Container(
-                  height: 40,
+                  height: 60,
                   width: width - 32,
                   color: widget.items[_index].color,
-                  child: Center(
-                    child: Text(
-                      widget.items[_index].name.toUpperCase(),
-                      style: TextStyle(
-                        fontFamily: 'UTMSwissCondensed',
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        widget.items[_index].name.toUpperCase(),
+                        style: TextStyle(
+                          fontFamily: 'UTMSwissCondensed',
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
+                      SizedBox(width: 8),
+                      Image.asset(widget.items[_index].image),
+                    ],
                   ),
                 ),
               ),
