@@ -31,7 +31,7 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
   bool _isPlaying = false;
 
   void _start() {
-    if(_isPlaying) {
+    if (_isPlaying) {
       return;
     }
     _isPlaying = true;
@@ -216,27 +216,31 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
             child: Center(
               child: SkeletonAnimation(
                 child: Container(
-                  height: 50,
+                  height: 91,
                   width: width - 32,
                   color: widget.items[_index].color,
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                  child: Row(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(
-                        child: Text(
-                          widget.items[_index].name.toUpperCase(),
-                          maxLines: 1,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'UTMSwissCondensed',
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      Text(
+                        widget.items[_index].name.toUpperCase(),
+                        maxLines: 1,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'UTMSwissCondensed',
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(width: 8),
-                      Image.asset(widget.items[_index].image),
+                      SizedBox(height: 4),
+                      Image.asset(
+                        widget.items[_index].image,
+                        width: 45,
+                        height: 45,
+                      ),
                     ],
                   ),
                 ),

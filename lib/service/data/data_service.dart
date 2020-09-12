@@ -27,6 +27,7 @@ class DataService extends ChangeNotifier {
       wheels.addAll([
         WheelInfo(id: 0, name: 'Giải trí', items: WheelItemConfig.giaiTriList),
         WheelInfo(id: 1, name: 'Sát phạt', items: WheelItemConfig.satPhatList),
+        WheelInfo(id: -1, name: 'Sắp ra mắt', items: WheelItemConfig.satPhatList),
         // WheelInfo(id: 2, name: 'Sự thật hoặc Thử thách'),
         // WheelInfo(id: 3, name: 'Tự nhập mức phạt'),
         // WheelInfo(id: 4, name: 'Người được chọn'),

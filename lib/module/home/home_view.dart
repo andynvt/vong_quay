@@ -25,7 +25,7 @@ class _HomeViewState extends State<HomeView> {
         break;
       case 2:
       case 3:
-        Navigator.of(context).push(createPage(FlexibleWheelConfig()));
+        // Navigator.of(context).push(createPage(FlexibleWheelConfig()));
         break;
       case 4:
         break;
@@ -104,8 +104,20 @@ class _HomeViewState extends State<HomeView> {
                           carouselController: _controller,
                           itemCount: service.wheels.length,
                           itemBuilder: (_, index) {
-                            return Image.asset(
-                              'assets/images/${service.wheels[index].id + 1}.png',
+                            return Container(
+                              margin: const EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 5,
+                                    color: Colors.black38,
+                                  ),
+                                ],
+                              ),
+                              child: Image.asset(
+                                'assets/images/${service.wheels[index].id + 1}.png',
+                              ),
                             );
                           },
                           options: CarouselOptions(
@@ -191,7 +203,9 @@ class _HomeViewState extends State<HomeView> {
                       margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: _index == index ? Color.fromRGBO(0, 0, 0, 0.9) : Color.fromRGBO(0, 0, 0, 0.4),
+                        color: _index == index
+                            ? Color.fromRGBO(0, 0, 0, 0.9)
+                            : Color.fromRGBO(0, 0, 0, 0.4),
                       ),
                     );
                   }).toList(),
