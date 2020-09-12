@@ -28,11 +28,13 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
   AnimationController _ctrl;
   Animation _ani;
   bool _isHide = true;
+  bool _isPlaying = false;
 
   void _start() {
-    if(_isHide) {
+    if(_isPlaying) {
       return;
     }
+    _isPlaying = true;
     AudioPlayerService.shared().playSpin();
     if (!_ctrl.isAnimating) {
       setState(() {
@@ -60,6 +62,7 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
         AudioPlayerService.shared().playCongrats();
         setState(() {
           _isHide = false;
+          _isPlaying = false;
         });
       }
     });
@@ -201,7 +204,6 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
   Widget _buildResult(_value) {
     var _index = _calIndex(_value * _angle + _current);
     final width = MediaQuery.of(context).size.width;
-    // String _asset = widget.items[_index].asset;
     if (_isHide) {
       return SizedBox(width: width, height: double.infinity);
     }
@@ -211,11 +213,10 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
         children: [
           Container(
             height: 150,
-            // width: width,
             child: Center(
               child: SkeletonAnimation(
                 child: Container(
-                  height: 80,
+                  height: 50,
                   width: width - 32,
                   color: widget.items[_index].color,
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -224,7 +225,7 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
                       Expanded(
                         child: Text(
                           widget.items[_index].name.toUpperCase(),
-                          maxLines: 2,
+                          maxLines: 1,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'UTMSwissCondensed',
