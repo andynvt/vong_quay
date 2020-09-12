@@ -27,10 +27,12 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
   double _current = 0;
   AnimationController _ctrl;
   Animation _ani;
-  // bool _isMute = false;
   bool _isHide = true;
 
   void _start() {
+    if(_isHide) {
+      return;
+    }
     AudioPlayerService.shared().playSpin();
     if (!_ctrl.isAnimating) {
       setState(() {
@@ -115,7 +117,10 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
                 width: 50,
                 height: 50,
                 child: FlatButton(
-                  onPressed: Navigator.of(context).pop,
+                  onPressed: () {
+                    AudioPlayerService.shared().stop();
+                    Navigator.of(context).pop();
+                  },
                   padding: const EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100),
@@ -210,21 +215,24 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
             child: Center(
               child: SkeletonAnimation(
                 child: Container(
-                  height: 60,
+                  height: 80,
                   width: width - 32,
                   color: widget.items[_index].color,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        widget.items[_index].name.toUpperCase(),
-                        style: TextStyle(
-                          fontFamily: 'UTMSwissCondensed',
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: Text(
+                          widget.items[_index].name.toUpperCase(),
+                          maxLines: 2,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'UTMSwissCondensed',
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        textAlign: TextAlign.center,
                       ),
                       SizedBox(width: 8),
                       Image.asset(widget.items[_index].image),

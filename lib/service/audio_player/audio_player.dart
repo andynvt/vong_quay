@@ -21,7 +21,7 @@ class AudioPlayerService {
 
   void _initPlayer() {
     _player = AudioPlayer(mode: PlayerMode.MEDIA_PLAYER, playerId: 'vq_player_id');
-    _volume = CacheService.shared().getDouble('volumne');
+    _volume = CacheService.shared().getDouble('volume');
     _player.setVolume(_volume);
   }
 
@@ -31,6 +31,10 @@ class AudioPlayerService {
 
   void playCongrats() async {
     _player = await cache.play('audios/congrats1.mp3', volume: _volume);
+  }
+
+  void stop() async {
+    await _player.stop();
   }
 
   void mute() {
