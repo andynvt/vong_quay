@@ -100,29 +100,38 @@ class _BoardViewState extends State<BoardView> {
             height: size.height / 3,
             width: 55,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                width: double.infinity,
-                height: 50,
-                child: Center(
-                  child: AutoSizeText(
-                    item.name.toUpperCase(),
-                    maxLines: 3,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'UTMSwissCondensed',
-                      color: Colors.white,
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 3),
-              Image.asset(item.image, width: 40),
-            ],
+          child: () {
+            if (item.image == null || item.image.isEmpty) {
+              return _renderText(item.name);
+            }
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                _renderText(item.name),
+                SizedBox(height: 3),
+                Image.asset(item.image, width: 40),
+              ],
+            );
+          }(),
+        ),
+      ),
+    );
+  }
+
+  Widget _renderText(String name) {
+    return Container(
+      width: double.infinity,
+      height: 50,
+      child: Center(
+        child: AutoSizeText(
+          name.toUpperCase(),
+          maxLines: 3,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: 'UTMSwissCondensed',
+            color: Colors.white,
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),

@@ -16,22 +16,31 @@ class _HomeViewState extends State<HomeView> {
 
   void _playClick() {
     CacheService.shared().setInt('index', _index);
-    switch (_index) {
-      case 0:
-        Navigator.of(context).push(createPage(NormalWheel(items: WheelItemConfig.giaiTriList)));
-        break;
-      case 1:
-        Navigator.of(context).push(createPage(NormalWheel(items: WheelItemConfig.satPhatList)));
-        break;
-      case 2:
-      case 3:
-        Navigator.of(context).push(createPage(FlexibleWheelConfig()));
-        break;
-      case 4:
-        break;
-      default:
-        break;
+    final wheels = DataService.shared().wheels;
+    final lastIndex = int.parse(wheels.keys.last);
+    if (_index == lastIndex) {
+      Navigator.of(context).push(createPage(FlexibleWheelConfig()));
+    } else {
+      Navigator.of(context).push(createPage(NormalWheel(
+        items: wheels[_index.toString()].items,
+      )));
     }
+    // switch (_index) {
+    //   case 0:
+    //     Navigator.of(context).push(createPage(NormalWheel(items: WheelItemConfig.giaiTriList)));
+    //     break;
+    //   case 1:
+    //     Navigator.of(context).push(createPage(NormalWheel(items: WheelItemConfig.satPhatList)));
+    //     break;
+    //   case 2:
+    //   case 3:
+    //     Navigator.of(context).push(createPage(FlexibleWheelConfig()));
+    //     break;
+    //   case 4:
+    //     break;
+    //   default:
+    //     break;
+    // }
   }
 
   @override
@@ -78,7 +87,7 @@ class _HomeViewState extends State<HomeView> {
                 value: DataService.shared(),
                 builder: (_, service) {
                   return StrokeText(
-                    '${service.wheels[_index].name}'.toUpperCase(),
+                    '${service.wheels[_index.toString()].name}'.toUpperCase(),
                     fontFamily: 'SFURhythmRegular',
                     textAlign: TextAlign.center,
                     color: Colors.white,
@@ -116,7 +125,7 @@ class _HomeViewState extends State<HomeView> {
                                 ],
                               ),
                               child: Image.asset(
-                                'assets/images/${service.wheels[index].id + 1}.png',
+                                service.wheels[index.toString()].image,
                               ),
                             );
                           },
@@ -195,20 +204,23 @@ class _HomeViewState extends State<HomeView> {
               builder: (_, service) {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: service.wheels.map((url) {
-                    int index = service.wheels.indexOf(url);
-                    return Container(
-                      width: 8.0,
-                      height: 8.0,
-                      margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: _index == index
-                            ? Color.fromRGBO(0, 0, 0, 0.9)
-                            : Color.fromRGBO(0, 0, 0, 0.4),
-                      ),
-                    );
-                  }).toList(),
+                  children: () {
+                    final List<Widget> ls = [];
+                    service.wheels.forEach((k, v) {
+                      ls.add(Container(
+                        width: 8.0,
+                        height: 8.0,
+                        margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: _index == int.parse(k)
+                              ? Color.fromRGBO(0, 0, 0, 0.9)
+                              : Color.fromRGBO(0, 0, 0, 0.4),
+                        ),
+                      ));
+                    });
+                    return ls;
+                  }(),
                 );
               },
             ),

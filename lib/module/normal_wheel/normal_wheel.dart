@@ -207,6 +207,7 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
     if (_isHide) {
       return SizedBox(width: width, height: double.infinity);
     }
+    bool notHasAsset = widget.items[_index].image == null || widget.items[_index].image.isEmpty;
     return Align(
       alignment: Alignment.topCenter,
       child: Stack(
@@ -216,33 +217,28 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
             child: Center(
               child: SkeletonAnimation(
                 child: Container(
-                  height: 91,
+                  height: notHasAsset ? 40 : 91,
                   width: width - 32,
                   color: widget.items[_index].color,
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        widget.items[_index].name.toUpperCase(),
-                        maxLines: 1,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'UTMSwissCondensed',
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
+                  child: () {
+                    if (notHasAsset) {
+                      return _renderText(_index);
+                    }
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _renderText(_index),
+                        SizedBox(height: 4),
+                        Image.asset(
+                          widget.items[_index].image,
+                          width: 45,
+                          height: 45,
                         ),
-                      ),
-                      SizedBox(height: 4),
-                      Image.asset(
-                        widget.items[_index].image,
-                        width: 45,
-                        height: 45,
-                      ),
-                    ],
-                  ),
+                      ],
+                    );
+                  }(),
                 ),
               ),
             ),
@@ -261,6 +257,20 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _renderText(int _index) {
+    return Text(
+      widget.items[_index].name.toUpperCase(),
+      maxLines: 1,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontFamily: 'UTMSwissCondensed',
+        color: Colors.white,
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
       ),
     );
   }

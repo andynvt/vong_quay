@@ -3,6 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:vong_quay/model/model.dart';
+import 'package:vong_quay/module/module.dart';
+import 'package:vong_quay/service/service.dart';
+import 'package:vong_quay/widget/route.dart';
 
 class FlexibleWheelConfig extends StatefulWidget {
   @override
@@ -13,7 +16,7 @@ class _FlexibleWheelConfigState extends State<FlexibleWheelConfig> {
   String _wheelName = '';
   int _quantity = 5;
 
-  final Map<int, ItemInfo> items = {
+  final Map<int, ItemInfo> _items = {
     0: ItemInfo(color: Colors.green),
     1: ItemInfo(color: Colors.red),
     2: ItemInfo(color: Colors.indigo),
@@ -28,7 +31,7 @@ class _FlexibleWheelConfigState extends State<FlexibleWheelConfig> {
     setState(() {
       _quantity -= 1;
     });
-    items.remove(items.length);
+    _items.remove(_items.length);
   }
 
   void _addItemClick() {
@@ -38,7 +41,7 @@ class _FlexibleWheelConfigState extends State<FlexibleWheelConfig> {
     setState(() {
       _quantity += 1;
     });
-    items[items.length] = ItemInfo(color: Colors.deepOrange);
+    _items[_items.length] = ItemInfo(color: Colors.deepOrange);
   }
 
   void _selectColor(int index) {
@@ -49,10 +52,10 @@ class _FlexibleWheelConfigState extends State<FlexibleWheelConfig> {
           contentPadding: const EdgeInsets.all(6.0),
           content: MaterialColorPicker(
             shrinkWrap: true,
-            selectedColor: items[index].color,
+            selectedColor: _items[index].color,
             onMainColorChange: (cl) {
               setState(() {
-                items[index].color = cl;
+                _items[index].color = cl;
               });
               Navigator.of(_).pop();
             },
@@ -64,8 +67,11 @@ class _FlexibleWheelConfigState extends State<FlexibleWheelConfig> {
   }
 
   void _doneClick() {
-    // print(_wheelName);
-    print(items.values);
+    DataService.shared().addWheel(_wheelName, _items.values.toList(), () {
+      final wheels = DataService.shared().wheels;
+      final items = wheels[(wheels.length - 2).toString()].items;
+      Navigator.of(context).pushReplacement(createPage(NormalWheel(items: items)));
+    });
   }
 
   @override
@@ -198,7 +204,7 @@ class _FlexibleWheelConfigState extends State<FlexibleWheelConfig> {
                                         labelText: 'Tên ô ${index + 1}',
                                       ),
                                       onChanged: (value) {
-                                        items[index].name = value;
+                                        _items[index].name = value;
                                       },
                                     ),
                                   ),
@@ -209,7 +215,7 @@ class _FlexibleWheelConfigState extends State<FlexibleWheelConfig> {
                                       width: 40,
                                       height: 40,
                                       decoration: BoxDecoration(
-                                        color: items[index].color,
+                                        color: _items[index].color,
                                         shape: BoxShape.circle,
                                         boxShadow: [
                                           BoxShadow(
