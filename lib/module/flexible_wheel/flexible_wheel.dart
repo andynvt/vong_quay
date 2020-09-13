@@ -72,7 +72,10 @@ class _FlexibleWheelState extends State<FlexibleWheel> {
     DataService.shared().addWheel(_wheelName, _items.values.toList(), () {
       final wheels = DataService.shared().wheels;
       final items = wheels[(wheels.length - 2).toString()].items;
-      Navigator.of(context).pushReplacement(createPage(NormalWheel(items: items)));
+      Navigator.of(context).pushReplacement(createPage(NormalWheel(
+        items: items,
+        index: (wheels.length - 2).toString(),
+      )));
     });
   }
 

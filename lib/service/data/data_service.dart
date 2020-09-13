@@ -53,6 +53,11 @@ class DataService extends ChangeNotifier {
     callback();
   }
 
+  void deleteWheel(String index) {
+    wheels.remove(index);
+    notifyListeners();
+  }
+
   Map<String, WheelInfo> _wheelsFromJson(Map<String, dynamic> map) {
     if (map == null || map.isEmpty) {
       return {};

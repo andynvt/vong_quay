@@ -9,10 +9,12 @@ import 'package:vong_quay/service/service.dart';
 import 'package:vong_quay/widget/widget.dart';
 
 class NormalWheel extends StatefulWidget {
+  final String index;
   final List<ItemInfo> items;
 
   const NormalWheel({
     Key key,
+    this.index,
     this.items,
   }) : super(key: key);
   @override
@@ -26,6 +28,7 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
   Animation _ani;
   bool _isHide = true;
   bool _isPlaying = false;
+  bool _hasDeleteButton = true;
 
   void _start() {
     if (_isPlaying) {
@@ -47,6 +50,40 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
     }
   }
 
+  void _deleteClick() {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          content: Text(
+            'Xoá vòng quay này?',
+            style: const TextStyle(fontSize: 18),
+          ),
+          actions: [
+            FlatButton(
+              splashColor: Colors.orange[100],
+              onPressed: Navigator.of(_).pop,
+              child: Text(
+                'Huỷ',
+                style: const TextStyle(color: Colors.black),
+              ),
+            ),
+            FlatButton(
+              onPressed: () {
+                DataService.shared().deleteWheel(widget.index);
+              },
+              splashColor: Colors.orange[100],
+              child: Text(
+                'Xoá',
+                style: const TextStyle(color: Colors.deepOrange),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     var _duration = Duration(milliseconds: 5000);
@@ -63,6 +100,8 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
         });
       }
     });
+
+    _hasDeleteButton = widget.index != '0' && widget.index != '1';
   }
 
   @override
@@ -140,35 +179,61 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
               ),
             ),
           ),
-          Positioned(
+          Align(
+            alignment: _hasDeleteButton ?  Alignment.bottomCenter : Alignment.bottomRight,
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 48, right: _hasDeleteButton ? 0 : 16),
+              child: SafeArea(
+                child: SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: Consum<SettingService>(
+                    value: DataService.shared().setting,
+                    builder: (_, service) {
+                      return FlatButton(
+                        onPressed: DataService.shared().setting.setMute,
+                        padding: const EdgeInsets.all(0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          side: BorderSide(color: Colors.white, width: 2),
+                        ),
+                        color: service.isMute ? Colors.grey : Colors.deepOrange[400],
+                        child: Icon(
+                          service.isMute ? Icons.volume_off : Icons.volume_up,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+          _hasDeleteButton ? Positioned(
             right: 16,
             bottom: 48,
             child: SafeArea(
               child: SizedBox(
                 width: 50,
                 height: 50,
-                child: Consum<SettingService>(
-                  value: DataService.shared().setting,
-                  builder: (_, service) {
-                    return FlatButton(
-                      onPressed: DataService.shared().setting.setMute,
-                      padding: const EdgeInsets.all(0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100),
-                        side: BorderSide(color: Colors.white, width: 2),
-                      ),
-                      color: service.isMute ? Colors.grey : Colors.deepOrange[400],
-                      child: Icon(
-                        service.isMute ? Icons.volume_off : Icons.volume_up,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-                    );
-                  },
+                child: FlatButton(
+                  onPressed: _deleteClick,
+                  padding: const EdgeInsets.all(0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                    side: BorderSide(color: Colors.white, width: 2),
+                  ),
+                  color: Colors.deepOrange[400],
+                  child: Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                    size: 30,
+                  ),
                 ),
               ),
             ),
-          ),
+          ) : SizedBox(),
         ],
       ),
     );
@@ -214,7 +279,7 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
             child: Center(
               child: SkeletonAnimation(
                 child: Container(
-                  height: notHasAsset ? 40 : 91,
+                  height: notHasAsset ? 44 : 91,
                   width: width - 32,
                   color: widget.items[_index].color,
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),

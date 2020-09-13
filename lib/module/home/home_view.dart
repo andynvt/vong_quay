@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:vong_quay/config/config.dart';
 import 'package:vong_quay/module/module.dart';
 import 'package:vong_quay/service/service.dart';
 import 'package:vong_quay/widget/widget.dart';
@@ -23,24 +22,9 @@ class _HomeViewState extends State<HomeView> {
     } else {
       Navigator.of(context).push(createPage(NormalWheel(
         items: wheels[_index.toString()].items,
+        index: _index.toString(),
       )));
     }
-    // switch (_index) {
-    //   case 0:
-    //     Navigator.of(context).push(createPage(NormalWheel(items: WheelItemConfig.giaiTriList)));
-    //     break;
-    //   case 1:
-    //     Navigator.of(context).push(createPage(NormalWheel(items: WheelItemConfig.satPhatList)));
-    //     break;
-    //   case 2:
-    //   case 3:
-    //     Navigator.of(context).push(createPage(FlexibleWheelConfig()));
-    //     break;
-    //   case 4:
-    //     break;
-    //   default:
-    //     break;
-    // }
   }
 
   @override
