@@ -64,8 +64,8 @@ class _FlexibleWheelConfigState extends State<FlexibleWheelConfig> {
   }
 
   void _doneClick() {
-    print(_wheelName);
-    print(items);
+    // print(_wheelName);
+    print(items.values);
   }
 
   @override

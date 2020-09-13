@@ -25,7 +25,7 @@ class _HomeViewState extends State<HomeView> {
         break;
       case 2:
       case 3:
-        // Navigator.of(context).push(createPage(FlexibleWheelConfig()));
+        Navigator.of(context).push(createPage(FlexibleWheelConfig()));
         break;
       case 4:
         break;

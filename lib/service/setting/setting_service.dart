@@ -18,7 +18,6 @@ class SettingService extends ChangeNotifier {
 
   void restoreSetting() async {
     isMute = CacheService.shared().getBool('isMute');
-    print(isMute);
     _setMute();
     notifyListeners();
   }
