@@ -3,6 +3,29 @@ import 'package:vong_quay/model/model.dart';
 
 class WheelItemConfig {
   WheelItemConfig._();
+
+  static final List<Color> colors =[
+    Colors.green,
+    Colors.red,
+    Colors.indigo,
+    Colors.orange,
+    Colors.pink,
+    Colors.cyan,
+    Colors.purple,
+    Colors.teal,
+    Colors.deepOrange,
+    Colors.brown,
+    Colors.deepPurple,
+    Colors.lightGreen,
+    Colors.grey,
+    Colors.lime,
+    Colors.blueGrey,
+    Colors.blue,
+    Colors.yellow,
+    Colors.black,
+    Colors.lightBlue,
+    Colors.amber,
+  ];
   static String _image(int id) {
     return 'assets/images/ic_wi_$id.png';
   }

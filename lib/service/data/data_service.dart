@@ -29,7 +29,7 @@ class DataService extends ChangeNotifier {
       wheels.addAll({
         '0': WheelInfo(image: _image(0), name: 'Giải trí', items: WheelItemConfig.giaiTriList),
         '1': WheelInfo(image: _image(1), name: 'Sát phạt', items: WheelItemConfig.satPhatList),
-        '2': WheelInfo(image: _image(-1), name: 'Tự nhập', items: []),
+        '2': WheelInfo(image: _image(-2), name: 'Tự nhập', items: []),
       });
       // WheelInfo(id: 2, name: 'Sự thật hoặc Thử thách'),
       // WheelInfo(id: 3, name: 'Tự nhập mức phạt'),

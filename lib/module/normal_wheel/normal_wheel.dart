@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:skeleton_text/skeleton_text.dart';
-import 'package:vong_quay/config/config.dart';
 import 'package:vong_quay/model/item_info.dart';
 import 'package:vong_quay/service/audio_player/audio_player.dart';
 import 'package:vong_quay/service/service.dart';
@@ -11,12 +10,10 @@ import 'package:vong_quay/widget/widget.dart';
 
 class NormalWheel extends StatefulWidget {
   final List<ItemInfo> items;
-  final WheelTypeEnum type;
 
   const NormalWheel({
     Key key,
     this.items,
-    this.type = WheelTypeEnum.GIAI_TRI,
   }) : super(key: key);
   @override
   _NormalWheelState createState() => _NormalWheelState();

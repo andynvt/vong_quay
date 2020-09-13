@@ -19,7 +19,7 @@ class _HomeViewState extends State<HomeView> {
     final wheels = DataService.shared().wheels;
     final lastIndex = int.parse(wheels.keys.last);
     if (_index == lastIndex) {
-      Navigator.of(context).push(createPage(FlexibleWheelConfig()));
+      Navigator.of(context).push(createPage(FlexibleWheel()));
     } else {
       Navigator.of(context).push(createPage(NormalWheel(
         items: wheels[_index.toString()].items,
