@@ -46,16 +46,27 @@ class DataService extends ChangeNotifier {
     final last = wheels.remove((wheels.length - 1).toString());
     wheels[wheels.length.toString()] = WheelInfo(image: _image(-1), name: name, items: items);
     wheels[wheels.length.toString()] = last;
+    _syncWheel();
     notifyListeners();
-
-    final js = json.encode(wheels);
-    CacheService.shared().setString('wheel', js);
     callback();
   }
 
   void deleteWheel(String index) {
+    int intIndex = int.parse(index);
     wheels.remove(index);
+
+    final Map<String, WheelInfo> map = {};
+    for(int i = 0; i<wheels.length; i++) {
+      map['$i'] = wheels.values.toList()[i];
+    }
+    wheels.clear();
+    wheels.addAll(map);
+
+    _syncWheel();
+    
     notifyListeners();
+    CacheService.shared().setInt('index', 0);
+
   }
 
   Map<String, WheelInfo> _wheelsFromJson(Map<String, dynamic> map) {
@@ -67,6 +78,11 @@ class DataService extends ChangeNotifier {
       rs[key] = WheelInfo.fromJson(value);
     });
     return rs;
+  }
+
+  void _syncWheel() {
+    final js = json.encode(wheels);
+    CacheService.shared().setString('wheel', js);
   }
 
   String _image(int id) => 'assets/images/$id.png';

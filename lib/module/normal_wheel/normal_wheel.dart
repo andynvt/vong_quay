@@ -71,6 +71,8 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
             FlatButton(
               onPressed: () {
                 DataService.shared().deleteWheel(widget.index);
+                Navigator.of(_).pop();
+                Navigator.of(context).pop();
               },
               splashColor: Colors.orange[100],
               child: Text(
