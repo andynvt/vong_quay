@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:vong_quay/config/wheel_item_config.dart';
 import 'package:vong_quay/model/model.dart';
 import 'package:vong_quay/service/cache/cache_service.dart';
+import 'package:vong_quay/service/network/network_api.dart';
+import 'package:vong_quay/service/network/network_service.dart';
 import 'package:vong_quay/service/setting/setting_service.dart';
 
 class DataService extends ChangeNotifier {
@@ -27,8 +29,8 @@ class DataService extends ChangeNotifier {
     final cacheWheel = CacheService.shared().getString('wheel');
     if (cacheWheel.isEmpty) {
       wheels.addAll({
-        '0': WheelInfo(image: _image(0), name: 'Giải trí', items: WheelItemConfig.giaiTriList),
-        '1': WheelInfo(image: _image(1), name: 'Sát phạt', items: WheelItemConfig.satPhatList),
+        '0': WheelInfo(image: _image(0), name: 'Sát phạt', items: WheelItemConfig.giaiTriList),
+        '1': WheelInfo(image: _image(1), name: 'Giải trí', items: WheelItemConfig.satPhatList),
         '2': WheelInfo(image: _image(-2), name: 'Tự nhập', items: []),
       });
       // WheelInfo(id: 2, name: 'Sự thật hoặc Thử thách'),
@@ -48,25 +50,42 @@ class DataService extends ChangeNotifier {
     wheels[wheels.length.toString()] = last;
     _syncWheel();
     notifyListeners();
+    // fetchAudios(items, callback);
     callback();
   }
 
+  // void fetchAudios(List<ItemInfo> items, Function callback) {
+  //   items.forEach((i) {
+  //     NetworkService.shared().sendPOSTRequest(
+  //       url: NetworkAPI.SPEECH,
+  //       headers: {
+  //         'api_key': 'A16933XmNqBldIzIUjme3hM7nDf4YC5f',
+  //         'voice': 'lannhi',
+  //       },
+  //       body: i.name,
+  //       callback: (rs) {
+  //         if (rs.isOK && rs.data['error'] == 0) {
+  //           print(rs.data['async']);
+  //         }
+  //       },
+  //     );
+  //   });
+  // }
+
   void deleteWheel(String index) {
-    int intIndex = int.parse(index);
     wheels.remove(index);
 
     final Map<String, WheelInfo> map = {};
-    for(int i = 0; i<wheels.length; i++) {
+    for (int i = 0; i < wheels.length; i++) {
       map['$i'] = wheels.values.toList()[i];
     }
     wheels.clear();
     wheels.addAll(map);
 
     _syncWheel();
-    
+
     notifyListeners();
     CacheService.shared().setInt('index', 0);
-
   }
 
   Map<String, WheelInfo> _wheelsFromJson(Map<String, dynamic> map) {

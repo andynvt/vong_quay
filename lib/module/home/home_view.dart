@@ -29,6 +29,7 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void initState() {
+    FirebaseService.shared().logScreen('/home');
     _index = CacheService.shared().getInt('index');
     _controller = CarouselController();
     super.initState();
@@ -197,9 +198,7 @@ class _HomeViewState extends State<HomeView> {
                         margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: _index == int.parse(k)
-                              ? Color.fromRGBO(0, 0, 0, 0.9)
-                              : Color.fromRGBO(0, 0, 0, 0.4),
+                          color: _index == int.parse(k) ? Color.fromRGBO(0, 0, 0, 0.9) : Color.fromRGBO(0, 0, 0, 0.4),
                         ),
                       ));
                     });

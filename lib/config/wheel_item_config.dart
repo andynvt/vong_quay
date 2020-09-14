@@ -4,7 +4,7 @@ import 'package:vong_quay/model/model.dart';
 class WheelItemConfig {
   WheelItemConfig._();
 
-  static final List<Color> colors =[
+  static final List<Color> colors = [
     Colors.green,
     Colors.red,
     Colors.indigo,

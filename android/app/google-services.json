@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "130870322354",
+    "firebase_url": "https://vong-quay-e630a.firebaseio.com",
+    "project_id": "vong-quay-e630a",
+    "storage_bucket": "vong-quay-e630a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130870322354:android:78e81e0e547f699ffad5ab",
+        "android_client_info": {
+          "package_name": "com.ngvantai.vongQuay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "130870322354-b2n0ra6sh88fe6vi7nandu0dpo8in5jj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhEJn0W4a-M2p1dan8lsGcIB6xQ1TOPbk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "130870322354-b2n0ra6sh88fe6vi7nandu0dpo8in5jj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "130870322354-aplljiteq5ckvpvf3dus8jbe258aec2t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ngvantai.vongquay"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

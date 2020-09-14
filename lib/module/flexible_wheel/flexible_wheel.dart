@@ -80,6 +80,12 @@ class _FlexibleWheelState extends State<FlexibleWheel> {
   }
 
   @override
+  void initState() {
+    FirebaseService.shared().logScreen('/home/flexible-wheel');
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>130870322354-aplljiteq5ckvpvf3dus8jbe258aec2t.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.130870322354-aplljiteq5ckvpvf3dus8jbe258aec2t</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCOcuv_-zDm_g7l_0ZC17bwt5BNSTeqTmk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>130870322354</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.ngvantai.vongquay</string>
+	<key>PROJECT_ID</key>
+	<string>vong-quay-e630a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>vong-quay-e630a.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:130870322354:ios:7b386f069dc30b2afad5ab</string>
+	<key>DATABASE_URL</key>
+	<string>https://vong-quay-e630a.firebaseio.com</string>
+</dict>
+</plist>

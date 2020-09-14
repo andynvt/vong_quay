@@ -2,7 +2,7 @@ name: vong_quay
 description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -19,7 +19,13 @@ dependencies:
   skeleton_text: any
   flutter_material_color_picker: ^1.0.5
   audioplayers: ^0.16.0
+  http: ^0.12.1
+  path_provider: ^1.6.14
 
+  firebase_core: 
+  firebase_analytics: 
+  firebase_messaging: 
+  firebase_crashlytics:
 
 dev_dependencies:
   flutter_test:

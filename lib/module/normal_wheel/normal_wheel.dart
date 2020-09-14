@@ -29,6 +29,7 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
   bool _isHide = true;
   bool _isPlaying = false;
   bool _hasDeleteButton = true;
+  int _itemIndex = 0;
 
   void _start() {
     if (_isPlaying) {
@@ -88,6 +89,7 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
 
   @override
   void initState() {
+    FirebaseService.shared().logScreen('/home/normal-wheel');
     var _duration = Duration(milliseconds: 5000);
     _ctrl = AnimationController(vsync: this, duration: _duration);
     _ani = CurvedAnimation(parent: _ctrl, curve: Curves.fastLinearToSlowEaseIn);
@@ -96,6 +98,7 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
     _ani.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         AudioPlayerService.shared().playCongrats();
+        AudioPlayerService.shared().playVoice(widget.index, _itemIndex);
         setState(() {
           _isHide = false;
           _isPlaying = false;
@@ -182,7 +185,7 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
             ),
           ),
           Align(
-            alignment: _hasDeleteButton ?  Alignment.bottomCenter : Alignment.bottomRight,
+            alignment: _hasDeleteButton ? Alignment.bottomCenter : Alignment.bottomRight,
             child: Padding(
               padding: EdgeInsets.only(bottom: 48, right: _hasDeleteButton ? 0 : 16),
               child: SafeArea(
@@ -212,30 +215,32 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
               ),
             ),
           ),
-          _hasDeleteButton ? Positioned(
-            right: 16,
-            bottom: 48,
-            child: SafeArea(
-              child: SizedBox(
-                width: 50,
-                height: 50,
-                child: FlatButton(
-                  onPressed: _deleteClick,
-                  padding: const EdgeInsets.all(0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100),
-                    side: BorderSide(color: Colors.white, width: 2),
+          _hasDeleteButton
+              ? Positioned(
+                  right: 16,
+                  bottom: 48,
+                  child: SafeArea(
+                    child: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: FlatButton(
+                        onPressed: _deleteClick,
+                        padding: const EdgeInsets.all(0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          side: BorderSide(color: Colors.white, width: 2),
+                        ),
+                        color: Colors.deepOrange[400],
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                      ),
+                    ),
                   ),
-                  color: Colors.deepOrange[400],
-                  child: Icon(
-                    Icons.delete,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                ),
-              ),
-            ),
-          ) : SizedBox(),
+                )
+              : SizedBox(),
         ],
       ),
     );
@@ -266,12 +271,12 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
   }
 
   Widget _buildResult(_value) {
-    var _index = _calIndex(_value * _angle + _current);
+    _itemIndex = _calIndex(_value * _angle + _current);
     final width = MediaQuery.of(context).size.width;
     if (_isHide) {
       return SizedBox(width: width, height: double.infinity);
     }
-    bool notHasAsset = widget.items[_index].image == null || widget.items[_index].image.isEmpty;
+    bool notHasAsset = widget.items[_itemIndex].image == null || widget.items[_itemIndex].image.isEmpty;
     return Align(
       alignment: Alignment.topCenter,
       child: Stack(
@@ -283,20 +288,20 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
                 child: Container(
                   height: notHasAsset ? 44 : 91,
                   width: width - 32,
-                  color: widget.items[_index].color,
+                  color: widget.items[_itemIndex].color,
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                   child: () {
                     if (notHasAsset) {
-                      return _renderText(_index);
+                      return _renderText(_itemIndex);
                     }
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _renderText(_index),
+                        _renderText(_itemIndex),
                         SizedBox(height: 4),
                         Image.asset(
-                          widget.items[_index].image,
+                          widget.items[_itemIndex].image,
                           width: 45,
                           height: 45,
                         ),

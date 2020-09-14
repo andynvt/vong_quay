@@ -33,6 +33,10 @@ class AudioPlayerService {
     _player = await cache.play('audios/congrats1.mp3', volume: _volume);
   }
 
+  void playVoice(String wheelIndex, int itemIndex) async {
+    _player = await cache.play('audios/$wheelIndex$itemIndex.mp3', volume: _volume);
+  }
+
   void stop() async {
     await _player.stop();
   }

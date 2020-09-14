@@ -1,9 +1,13 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import '../module.dart';
 
 class VongQuayApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    FirebaseAnalytics analytics = FirebaseAnalytics();
+
     return MaterialApp(
       theme: ThemeData(
         cursorColor: Colors.white,
