@@ -97,7 +97,7 @@ class _NormalWheelState extends State<NormalWheel> with SingleTickerProviderStat
 
     _ani.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        AudioPlayerService.shared().playCongrats();
+        // AudioPlayerService.shared().playCongrats();
         AudioPlayerService.shared().playVoice(widget.index, _itemIndex);
         setState(() {
           _isHide = false;

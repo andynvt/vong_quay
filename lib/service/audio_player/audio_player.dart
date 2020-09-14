@@ -34,7 +34,19 @@ class AudioPlayerService {
   }
 
   void playVoice(String wheelIndex, int itemIndex) async {
-    _player = await cache.play('audios/$wheelIndex$itemIndex.mp3', volume: _volume);
+    _player = await cache
+        .play(
+      'audios/done.mp3',
+      volume: _volume,
+    )
+        .then((_) {
+      return Future.delayed(Duration(milliseconds: 300), () async {
+        return _player = await cache.play(
+          'audios/$wheelIndex$itemIndex.mp3',
+          volume: _volume,
+        );
+      });
+    });
   }
 
   void stop() async {
