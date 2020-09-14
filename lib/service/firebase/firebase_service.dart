@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 
 class FirebaseService {
   static FirebaseService _sInstance;
@@ -18,6 +20,8 @@ class FirebaseService {
   }
 
   static Future init() async {
+    Crashlytics.instance.enableInDevMode = true;
+    FlutterError.onError = Crashlytics.instance.recordFlutterError;
     await FirebaseService.shared()._init();
   }
 
@@ -51,7 +55,8 @@ class FirebaseService {
   }
 
   Future _requestIOSPermission() async {
-    await _messaging.requestNotificationPermissions(IosNotificationSettings(sound: true, badge: true, alert: true));
+    await _messaging.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true));
     _messaging.onIosSettingsRegistered.listen((IosNotificationSettings settings) {
       print("---> Settings registered: $settings");
     });
